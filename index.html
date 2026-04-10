@@ -491,7 +491,7 @@ function rKPI(){
   if(hasRY()){var r=gRY(cH);var tTR=0,tTM=0,tAR=0,tAM=0,tER=0,tEM=0,tBR=0,tBM=0,sOc=0,sTP=0,sRN=0,sPx=0,cM=0;
     MO.forEach(function(m){var d=r.meses[m];if(!d)return;var hasData=safeR25(d,'alojamiento.real')>0;tTR+=safeR25(d,'total.real');tAR+=safeR25(d,'alojamiento.real');tER+=safeR25(d,'eventos.real');tBR+=safeR25(d,'aabb.real');if(hasData){tTM+=safeR25(d,'total.meta');tAM+=safeR25(d,'alojamiento.meta');tEM+=safeR25(d,'eventos.meta');tBM+=safeR25(d,'aabb.meta');}if(d.ocupacion){sOc+=d.ocupacion;cM++;}if(d.rn_ocupadas)sRN+=d.rn_ocupadas;if(d.tarifa_prom)sTP+=d.tarifa_prom;if(d.pax)sPx+=d.pax;});
     var cV=tTM>0?tTR/tTM:0,cA=tAM>0?tAR/tAM:0,cE=tEM>0?tER/tEM:0,cB=tBM>0?tBR/tBM:0,aO=cM>0?sOc/cM:0,aT=cM>0?sTP/cM:0;
-    g.innerHTML='<div class="kpi-card" data-kpi="venta-total"><div class="kpi-label">Venta Total</div><div class="kpi-value">'+fmtFull(tTR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tTM)+' <span class="kpi-badge '+cCl(cV)+'">'+fP(cV)+'</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+Math.min(cV*100,100)+'%;background:var(--accent-blue)"></div></div>'+hotelSplit(rH.tTR,pH.tTR,'moneyM')+'</div>'+
+    g.innerHTML='<div class="kpi-card" data-kpi="venta-total"><div class="kpi-label">Venta Total (Aloj + Eventos + Restaurantes)</div><div class="kpi-value">'+fmtFull(tTR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tTM)+' <span class="kpi-badge '+cCl(cV)+'">'+fP(cV)+'</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+Math.min(cV*100,100)+'%;background:var(--accent-blue)"></div></div>'+hotelSplit(rH.tTR,pH.tTR,'moneyM')+'</div>'+
       '<div class="kpi-card" data-kpi="alojamiento"><div class="kpi-label">Alojamiento</div><div class="kpi-value">'+fmtFull(tAR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tAM)+' <span class="kpi-badge '+cCl(cA)+'">'+fP(cA)+'</span></div>'+hotelSplit(rH.tAR,pH.tAR,'moneyM')+'</div>'+
       '<div class="kpi-card" data-kpi="eventos"><div class="kpi-label">Eventos</div><div class="kpi-value">'+fmtFull(tER)+'</div><div class="kpi-sub">Meta: '+fmtFull(tEM)+' <span class="kpi-badge '+cCl(cE)+'">'+fP(cE)+'</span></div>'+hotelSplit(rH.tER,pH.tER,'moneyM')+'</div>'+
       '<div class="kpi-card" data-kpi="aabb"><div class="kpi-label">Restaurantes (AA&BB)</div><div class="kpi-value">'+fmtFull(tBR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tBM)+' <span class="kpi-badge '+cCl(cB)+'">'+fP(cB)+'</span></div>'+hotelSplit(rH.tBR,pH.tBR,'moneyM','Balandra','Estación 505')+'</div>'+
@@ -507,7 +507,7 @@ function rKPI(){
       '<div class="kpi-card" data-kpi="adr"><div class="kpi-label">ADR</div><div class="kpi-value">$'+fN(at)+'</div>'+hotelSplit(rAT,pAT,'money')+'</div>'+
       '<div class="kpi-card" data-kpi="revpar"><div class="kpi-label">RevPAR</div><div class="kpi-value">$'+fN(ao*at)+'</div>'+hotelSplit(rAO*rAT,pAO*pAT,'money')+'</div>'+
       '<div class="kpi-card" data-kpi="pax"><div class="kpi-label">PAX</div><div class="kpi-value">'+fN(tpx)+'</div>'+hotelSplit(rH.sPx,pH.sPx,'num')+'</div>'+
-      '<div class="kpi-card" data-kpi="venta-total"><div class="kpi-label">Venta Total Est.</div><div class="kpi-value">'+fmtFull(tv+te+ta)+'</div><div class="kpi-sub">Aloj+Ev+A&B</div>'+hotelSplit(rH.tTR,pH.tTR,'moneyM')+'</div>';}
+      '<div class="kpi-card" data-kpi="venta-total"><div class="kpi-label">Venta Total (Aloj + Eventos + Restaurantes)</div><div class="kpi-value">'+fmtFull(tv+te+ta)+'</div><div class="kpi-sub">Aloj+Ev+A&B</div>'+hotelSplit(rH.tTR,pH.tTR,'moneyM')+'</div>';}
 }
 
 // ========== Charts ==========
@@ -579,13 +579,13 @@ function rCSB(){dC('sb');if(!hasRY()){noD('w-sb','Cumplimiento por segmento solo
 
 // Historical
 function rCHi(){dC('hi');var cv=gCv('w-hi','cHi');if(!cv)return;var yrs=[2022,2023,2024,2025,2026];
-  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){return(mt[m]?mt[m].vt:0)/1e6;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?4:2,borderWidth:YR_WIDTH[yr]||2,borderDash:yr===2022?[6,4]:[]};});
+  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){var d=mt[m];if(!d||d.vt===0)return yr>=2026?null:(d?0:0);return d.vt/1e6;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?4:2,borderWidth:YR_WIDTH[yr]||2,borderDash:yr===2022?[6,4]:[],spanGaps:false};});
   ch.hi=new Chart(cv,{type:'line',data:{labels:MS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': $'+c.parsed.y.toFixed(0)+'M'}}}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return'$'+v+'M'}},grid:{color:'rgba(226,232,240,0.8)'}},x:{grid:{display:false}}}}});}
 function rCHO(){dC('ho');var cv=gCv('w-ho','cHO');if(!cv)return;var yrs=[2023,2024,2025,2026];
-  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){return(mt[m]?mt[m].oc:0)*100;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?3:2,borderWidth:YR_WIDTH[yr]||2};});
+  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){var d=mt[m];if(!d||d.oc===0)return yr>=2026?null:0;return d.oc*100;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?3:2,borderWidth:YR_WIDTH[yr]||2,spanGaps:false};});
   ch.ho=new Chart(cv,{type:'line',data:{labels:MS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'}}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+'%'}},grid:{color:'rgba(226,232,240,0.8)'}},x:{grid:{display:false}}}}});}
 function rCHT(){dC('ht');var cv=gCv('w-ht','cHT');if(!cv)return;var yrs=[2023,2024,2025,2026];
-  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){return(mt[m]?mt[m].tp:0)/1000;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?3:2,borderWidth:YR_WIDTH[yr]||2};});
+  var ds=yrs.map(function(yr){var mt=gMT(cH,yr);return{label:String(yr),data:MO.map(function(m){var d=mt[m];if(!d||d.tp===0)return yr>=2026?null:0;return d.tp/1000;}),borderColor:YR_COLORS[yr],fill:false,tension:0.3,pointRadius:(yr===2025||yr===2026)?3:2,borderWidth:YR_WIDTH[yr]||2,spanGaps:false};});
   ch.ht=new Chart(cv,{type:'line',data:{labels:MS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(c){return c.dataset.label+': $'+c.parsed.y.toFixed(1)+'K'}}}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return'$'+v+'K'}},grid:{color:'rgba(226,232,240,0.8)'}},x:{grid:{display:false}}}}});}
 
 // ========== Table ==========
@@ -691,7 +691,7 @@ function drawCY(){
   var tEl=document.getElementById('cmpYTitle');if(tEl)tEl.textContent='Comparativo Interanual — '+mLab[met];
   dC('cmpY');var cv=gCv('w-cmpY','cCmpY');if(!cv)return;
   var sy=[];document.querySelectorAll('#compYearChecks input:checked').forEach(function(i){sy.push(parseInt(i.value));});
-  var ds=sy.map(function(yr){var mt=gMT(cH,yr);var data=MO.map(function(m){if(!mt[m])return 0;if(met==='oc')return mt[m].oc*100;if(met==='tp')return mt[m].tp/1000;if(met==='px')return mt[m].px;return mt[m][met]/1e6;});return{label:String(yr),data:data,borderColor:YR_COLORS[yr]||'#fff',fill:false,tension:0.3,pointRadius:3,borderWidth:YR_WIDTH[yr]||2};});
+  var ds=sy.map(function(yr){var mt=gMT(cH,yr);var data=MO.map(function(m){if(!mt[m])return yr>=2026?null:0;if(met==='oc')return mt[m].oc>0?mt[m].oc*100:(yr>=2026?null:0);if(met==='tp')return mt[m].tp>0?mt[m].tp/1000:(yr>=2026?null:0);if(met==='px')return mt[m].px>0?mt[m].px:(yr>=2026?null:0);var v=mt[m][met];return v>0?v/1e6:(yr>=2026?null:0);});return{label:String(yr),data:data,borderColor:YR_COLORS[yr]||'#fff',fill:false,tension:0.3,pointRadius:3,borderWidth:YR_WIDTH[yr]||2,spanGaps:false};});
   var yT=met==='oc'?function(v){return v+'%'}:met==='tp'?function(v){return'$'+v+'K'}:met==='px'?function(v){return fN(v)}:function(v){return'$'+v+'M'};
   ch.cmpY=new Chart(cv,{type:'line',data:{labels:MS,datasets:ds},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},scales:{y:{beginAtZero:met!=='tp',ticks:{callback:yT},grid:{color:'rgba(226,232,240,0.8)'}},x:{grid:{display:false}}}}});
   // Table with variation rows
