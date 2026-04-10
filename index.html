@@ -16,10 +16,10 @@
   --font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{overflow-x:hidden;}
-body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden;}
+html{overflow-x:clip;}
+body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:clip;}
 
-.header{background:var(--bg-secondary);box-shadow:0 1px 4px rgba(0,0,0,0.08);border-bottom:1px solid var(--border);padding:1.25rem 2rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+.header{background:var(--bg-secondary);box-shadow:0 1px 4px rgba(0,0,0,0.08);border-bottom:1px solid var(--border);padding:1.25rem 2rem;position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(12px);}
 .header-inner{max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
 .brand{display:flex;align-items:center;gap:0.75rem;}
 .brand-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--radisson-color),var(--accent-amber));border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#ffffff;}
@@ -36,7 +36,7 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
 .main{max-width:1480px;margin:0 auto;padding:1.5rem 2rem 3rem;}
 
 /* === ENHANCED TABS === */
-.tab-nav{display:flex;gap:0.6rem;margin-bottom:1.5rem;flex-wrap:wrap;padding:0.5rem;background:#f1f5f9;border-radius:14px;border:1px solid var(--border);}
+.tab-nav{display:flex;gap:0.6rem;margin-bottom:0;flex-wrap:wrap;padding:0.5rem;background:#f1f5f9;border-radius:14px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.06);}
 .tab-btn{padding:0.7rem 1.4rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-body);font-size:0.88rem;font-weight:600;cursor:pointer;border-radius:10px;transition:all 0.25s;display:flex;align-items:center;gap:0.5rem;letter-spacing:-0.01em;}
 .tab-btn:hover{color:var(--text-primary);background:rgba(59,130,246,0.1);}
 .tab-btn.active{background:var(--accent-blue);color:white;box-shadow:0 2px 8px rgba(37,99,235,0.3);}
@@ -76,6 +76,7 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
 .data-table{width:100%;border-collapse:collapse;font-size:0.78rem;}
 .data-table th{text-align:left;padding:0.6rem 0.75rem;color:var(--text-muted);font-weight:500;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);white-space:nowrap;}
 .data-table td{padding:0.6rem 0.75rem;border-bottom:1px solid #f1f5f9;font-family:var(--font-mono);font-size:0.75rem;white-space:nowrap;}
+.data-table th.msep,.data-table td.msep{border-left:2px solid var(--border);}
 .data-table tr:hover td{background:rgba(37,99,235,0.04);}
 .data-table tr.row-total td{font-weight:700;border-top:2px solid var(--border);background:rgba(37,99,235,0.06);}
 .data-table tr.row-subtotal td{font-weight:600;background:rgba(37,99,235,0.03);}
@@ -97,7 +98,8 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
 .color-chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;}
 
 /* Tab nav scroll wrapper */
-.tab-nav-wrap{position:relative;margin-bottom:1.5rem;}
+.tab-nav-outer{position:fixed;top:0;left:0;right:0;z-index:90;background:var(--bg-primary);padding:0.75rem 2rem;border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:top 0.1s;}
+.tab-nav-wrap{max-width:1480px;margin:0 auto;position:relative;}
 .tab-nav-wrap::after{content:'';display:none;}
 
 /* ===== RESPONSIVE — Tablet ===== */
@@ -116,7 +118,7 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
 /* ===== RESPONSIVE — Mobile ===== */
 @media(max-width:600px){
   /* Header */
-  .header{padding:0.6rem 0.5rem;position:sticky;top:0;}
+  .header{padding:0.6rem 0.5rem;position:fixed;top:0;left:0;right:0;}
   .header-inner{gap:0.5rem;width:100%;}
   .brand{gap:0.4rem;}
   .brand-icon{width:30px;height:30px;font-size:0.85rem;border-radius:7px;}
@@ -129,16 +131,17 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
   .peso-hotel-btn{padding:0.35rem 0.6rem;font-size:0.7rem;flex-shrink:0;}
 
   /* Tab navigation — horizontal scroll with hint */
-  .tab-nav-wrap{margin-bottom:1rem;}
+  .tab-nav-outer{padding:0.5rem;}
+  .tab-nav-wrap{margin-bottom:0;}
   .tab-nav-wrap::after{content:'›';position:absolute;right:0;top:0;bottom:0;width:36px;background:linear-gradient(to right,transparent,var(--bg-primary) 70%);pointer-events:none;font-size:1.4rem;font-weight:700;color:var(--accent-blue);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;animation:hintPulse 1.5s ease-in-out infinite;z-index:2;border-radius:0 14px 14px 0;}
   .tab-nav-wrap.scrolled-end::after{opacity:0;transition:opacity 0.3s ease;}
-  .tab-nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0.35rem;padding-right:2rem;gap:0.35rem;margin-bottom:0;}
+  .tab-nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0.35rem;padding-right:2rem;gap:0.35rem;margin-bottom:0;border-radius:0;}
   .tab-nav::-webkit-scrollbar{display:none;}
   .tab-btn{padding:0.5rem 0.9rem;font-size:0.75rem;flex-shrink:0;white-space:nowrap;}
   .tab-btn .tab-icon{font-size:0.85rem;}
 
   /* Main content */
-  .main{padding:0.5rem 0.5rem 2rem;max-width:100%;overflow-x:hidden;}
+  .main{padding:0.5rem 0.5rem 2rem;max-width:100%;overflow-x:clip;}
 
   /* KPIs */
   .kpi-grid{grid-template-columns:repeat(2,1fr);gap:0.4rem;margin-bottom:1rem;width:100%;}
@@ -265,16 +268,14 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
       <div class="control-group" id="yearSel">
         <button class="control-btn" data-year="2023">2023</button>
         <button class="control-btn" data-year="2024">2024</button>
-        <button class="control-btn active" data-year="2025">2025</button>
-        <button class="control-btn" data-year="2026">2026</button>
+        <button class="control-btn" data-year="2025">2025</button>
+        <button class="control-btn active" data-year="2026">2026</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="main">
-  <div class="kpi-grid" id="kpiGrid"></div>
-
+<div class="tab-nav-outer">
   <div class="tab-nav-wrap">
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="overview"><span class="tab-icon">📊</span> Resumen Anual</button>
@@ -284,6 +285,10 @@ body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-
       <button class="tab-btn" data-tab="compare"><span class="tab-icon">⚖️</span> Comparativo</button>
     </div>
   </div>
+</div>
+
+<div class="main">
+  <div class="kpi-grid" id="kpiGrid"></div>
 
   <!-- TAB: OVERVIEW -->
   <div class="tab-content active" id="tab-overview">
@@ -376,7 +381,7 @@ function fP(n){if(!n&&n!==0)return'\u2014';return(n*100).toFixed(1)+'%';}
 function cCl(p){return p>=0.95?'badge-green':p>=0.75?'badge-amber':'badge-red';}
 function cTx(p){return p>=0.95?'cell-positive':p>=0.75?'cell-warning':'cell-negative';}
 
-var cH='consolidado',cY=2025,ch={},compMode='years';
+var cH='consolidado',cY=2026,ch={},compMode='years';
 Chart.defaults.color='#64748b';Chart.defaults.borderColor='rgba(226,232,240,0.8)';Chart.defaults.font.family="'DM Sans',sans-serif";Chart.defaults.font.size=11;
 Chart.defaults.plugins.legend.labels.usePointStyle=true;Chart.defaults.plugins.legend.labels.pointStyleWidth=8;
 Chart.defaults.plugins.tooltip.backgroundColor='rgba(15,23,42,0.9)';Chart.defaults.plugins.tooltip.padding=10;Chart.defaults.plugins.tooltip.cornerRadius=8;
@@ -468,8 +473,8 @@ function rKPI(){
     var rR=gRY('radisson'),pR=gRY('parkinn');
     MO.forEach(function(m){
       var dR=rR.meses[m],dP=pR.meses[m];
-      if(dR){rH.tTR+=safeR25(dR,'total.real');rH.tTM+=safeR25(dR,'total.meta');rH.tAR+=safeR25(dR,'alojamiento.real');rH.tAM+=safeR25(dR,'alojamiento.meta');rH.tER+=safeR25(dR,'eventos.real');rH.tEM+=safeR25(dR,'eventos.meta');rH.tBR+=safeR25(dR,'aabb.real');rH.tBM+=safeR25(dR,'aabb.meta');if(dR.ocupacion){rH.sOc+=dR.ocupacion;rH.cM++;}if(dR.rn_ocupadas)rH.sRN+=dR.rn_ocupadas;if(dR.tarifa_prom)rH.sTP+=dR.tarifa_prom;if(dR.pax)rH.sPx+=dR.pax;}
-      if(dP){pH.tTR+=safeR25(dP,'total.real');pH.tTM+=safeR25(dP,'total.meta');pH.tAR+=safeR25(dP,'alojamiento.real');pH.tAM+=safeR25(dP,'alojamiento.meta');pH.tER+=safeR25(dP,'eventos.real');pH.tEM+=safeR25(dP,'eventos.meta');pH.tBR+=safeR25(dP,'aabb.real');pH.tBM+=safeR25(dP,'aabb.meta');if(dP.ocupacion){pH.sOc+=dP.ocupacion;pH.cM++;}if(dP.rn_ocupadas)pH.sRN+=dP.rn_ocupadas;if(dP.tarifa_prom)pH.sTP+=dP.tarifa_prom;if(dP.pax)pH.sPx+=dP.pax;}
+      if(dR){var hDR=safeR25(dR,'alojamiento.real')>0;rH.tTR+=safeR25(dR,'total.real');rH.tAR+=safeR25(dR,'alojamiento.real');rH.tER+=safeR25(dR,'eventos.real');rH.tBR+=safeR25(dR,'aabb.real');if(hDR){rH.tTM+=safeR25(dR,'total.meta');rH.tAM+=safeR25(dR,'alojamiento.meta');rH.tEM+=safeR25(dR,'eventos.meta');rH.tBM+=safeR25(dR,'aabb.meta');}if(dR.ocupacion){rH.sOc+=dR.ocupacion;rH.cM++;}if(dR.rn_ocupadas)rH.sRN+=dR.rn_ocupadas;if(dR.tarifa_prom)rH.sTP+=dR.tarifa_prom;if(dR.pax)rH.sPx+=dR.pax;}
+      if(dP){var hDP=safeR25(dP,'alojamiento.real')>0;pH.tTR+=safeR25(dP,'total.real');pH.tAR+=safeR25(dP,'alojamiento.real');pH.tER+=safeR25(dP,'eventos.real');pH.tBR+=safeR25(dP,'aabb.real');if(hDP){pH.tTM+=safeR25(dP,'total.meta');pH.tAM+=safeR25(dP,'alojamiento.meta');pH.tEM+=safeR25(dP,'eventos.meta');pH.tBM+=safeR25(dP,'aabb.meta');}if(dP.ocupacion){pH.sOc+=dP.ocupacion;pH.cM++;}if(dP.rn_ocupadas)pH.sRN+=dP.rn_ocupadas;if(dP.tarifa_prom)pH.sTP+=dP.tarifa_prom;if(dP.pax)pH.sPx+=dP.pax;}
     });
   } else {
     var rMT2=gMT('radisson',cY),pMT2=gMT('parkinn',cY);
@@ -484,7 +489,7 @@ function rKPI(){
   var pAO=pH.cM>0?pH.sOc/pH.cM:0,pAT=pH.cM>0?pH.sTP/pH.cM:0;
 
   if(hasRY()){var r=gRY(cH);var tTR=0,tTM=0,tAR=0,tAM=0,tER=0,tEM=0,tBR=0,tBM=0,sOc=0,sTP=0,sRN=0,sPx=0,cM=0;
-    MO.forEach(function(m){var d=r.meses[m];if(!d)return;tTR+=safeR25(d,'total.real');tTM+=safeR25(d,'total.meta');tAR+=safeR25(d,'alojamiento.real');tAM+=safeR25(d,'alojamiento.meta');tER+=safeR25(d,'eventos.real');tEM+=safeR25(d,'eventos.meta');tBR+=safeR25(d,'aabb.real');tBM+=safeR25(d,'aabb.meta');if(d.ocupacion){sOc+=d.ocupacion;cM++;}if(d.rn_ocupadas)sRN+=d.rn_ocupadas;if(d.tarifa_prom)sTP+=d.tarifa_prom;if(d.pax)sPx+=d.pax;});
+    MO.forEach(function(m){var d=r.meses[m];if(!d)return;var hasData=safeR25(d,'alojamiento.real')>0;tTR+=safeR25(d,'total.real');tAR+=safeR25(d,'alojamiento.real');tER+=safeR25(d,'eventos.real');tBR+=safeR25(d,'aabb.real');if(hasData){tTM+=safeR25(d,'total.meta');tAM+=safeR25(d,'alojamiento.meta');tEM+=safeR25(d,'eventos.meta');tBM+=safeR25(d,'aabb.meta');}if(d.ocupacion){sOc+=d.ocupacion;cM++;}if(d.rn_ocupadas)sRN+=d.rn_ocupadas;if(d.tarifa_prom)sTP+=d.tarifa_prom;if(d.pax)sPx+=d.pax;});
     var cV=tTM>0?tTR/tTM:0,cA=tAM>0?tAR/tAM:0,cE=tEM>0?tER/tEM:0,cB=tBM>0?tBR/tBM:0,aO=cM>0?sOc/cM:0,aT=cM>0?sTP/cM:0;
     g.innerHTML='<div class="kpi-card" data-kpi="venta-total"><div class="kpi-label">Venta Total</div><div class="kpi-value">'+fmtFull(tTR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tTM)+' <span class="kpi-badge '+cCl(cV)+'">'+fP(cV)+'</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+Math.min(cV*100,100)+'%;background:var(--accent-blue)"></div></div>'+hotelSplit(rH.tTR,pH.tTR,'moneyM')+'</div>'+
       '<div class="kpi-card" data-kpi="alojamiento"><div class="kpi-label">Alojamiento</div><div class="kpi-value">'+fmtFull(tAR)+'</div><div class="kpi-sub">Meta: '+fmtFull(tAM)+' <span class="kpi-badge '+cCl(cA)+'">'+fP(cA)+'</span></div>'+hotelSplit(rH.tAR,pH.tAR,'moneyM')+'</div>'+
@@ -566,7 +571,7 @@ function rCSL(){dC('sl');var cv=gCv('w-sl','cSL');if(!cv)return;var ds=[];
 
 // Segment Bar
 function rCSB(){dC('sb');if(!hasRY()){noD('w-sb','Cumplimiento por segmento solo 2025/2026');return;}var cv=gCv('w-sb','cSB');if(!cv)return;var r=gRY(cH),sd=[];
-  SEGS_CHART.forEach(function(seg){var tr=0,tm=0;MO.forEach(function(m){tr+=safeR25(r.meses[m],'segmentos.'+seg+'.real');tm+=safeR25(r.meses[m],'segmentos.'+seg+'.meta');});if(tm>0||tr>0)sd.push({seg:seg,real:tr,meta:tm});});
+  SEGS_CHART.forEach(function(seg){var tr=0,tm=0;MO.forEach(function(m){var rv=safeR25(r.meses[m],'segmentos.'+seg+'.real');var alojR=safeR25(r.meses[m],'alojamiento.real');tr+=rv;if(alojR>0)tm+=safeR25(r.meses[m],'segmentos.'+seg+'.meta');});if(tm>0||tr>0)sd.push({seg:seg,real:tr,meta:tm});});
   ch.sb=new Chart(cv,{type:'bar',data:{labels:sd.map(function(s){return SS[s.seg];}),datasets:[
     {label:'Real',data:sd.map(function(s){return s.real/1e6;}),backgroundColor:sd.map(function(s){return SC[s.seg]+'BB';}),borderRadius:4},
     {label:'Meta',data:sd.map(function(s){return s.meta/1e6;}),backgroundColor:'rgba(148,163,184,0.35)',borderColor:'rgba(100,116,139,0.5)',borderWidth:1,borderRadius:4}
@@ -595,12 +600,12 @@ function rTbl(){var ct=document.getElementById('tblCt');if(!ct)return;
     h+='<tr><td colspan="14" style="padding:0.8rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase">Indicadores Operacionales</td></tr>';
     [{n:'Ocupación',f:function(m){return mt[m]?fP(mt[m].oc):'—';}},{n:'Tarifa Prom',f:function(m){return mt[m]?'$'+fN(mt[m].tp):'—';}},{n:'PAX',f:function(m){return mt[m]?fN(mt[m].px):'—';}},{n:'RN Ocupadas',f:function(m){return mt[m]?fN(mt[m].rno):'—';}}].forEach(function(k){h+='<tr><td>'+k.n+'</td>';MO.forEach(function(m){h+='<td style="text-align:right">'+k.f(m)+'</td>';});h+='<td></td></tr>';});
     h+='</tbody></table>';ct.innerHTML=h;return;}
-  var r=gRY(cH);var h='<table class="data-table"><thead><tr><th>Concepto</th>';MS.forEach(function(m){h+='<th style="text-align:right">'+m+' Real</th><th style="text-align:right">Meta</th><th style="text-align:right">%</th>';});h+='<th style="text-align:right">Total Real</th><th style="text-align:right">Meta</th><th style="text-align:right">Cumpl</th></tr></thead><tbody>';
-  SEGS.forEach(function(seg){var tr=0,tm=0;h+='<tr><td>'+SS[seg]+'</td>';MO.forEach(function(m){var re=safeR25(r.meses[m],'segmentos.'+seg+'.real'),me=safeR25(r.meses[m],'segmentos.'+seg+'.meta');tr+=re;tm+=me;var p=me>0?re/me:0;h+='<td style="text-align:right">'+fmt(re)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(me)+'</td><td style="text-align:right" class="'+cTx(p)+'">'+(me>0?fP(p):'—')+'</td>';});var c=tm>0?tr/tm:0;h+='<td style="text-align:right;font-weight:600">'+fmt(tr)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(tm)+'</td><td style="text-align:right;font-weight:600" class="'+cTx(c)+'">'+fP(c)+'</td></tr>';});
-  function addRow(lbl,key){var tr=0,tm=0;h+='<tr'+(key==='total'?' class="row-total"':key==='alojamiento'?' class="row-subtotal"':'')+'><td>'+lbl+'</td>';MO.forEach(function(m){var re=safeR25(r.meses[m],key+'.real'),me=safeR25(r.meses[m],key+'.meta');tr+=re;tm+=me;var p=me>0?re/me:0;h+='<td style="text-align:right">'+fmt(re)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(me)+'</td><td style="text-align:right" class="'+cTx(p)+'">'+fP(p)+'</td>';});var c=tm>0?tr/tm:0;h+='<td style="text-align:right;font-weight:600">'+fmt(tr)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(tm)+'</td><td style="text-align:right;font-weight:600" class="'+cTx(c)+'">'+fP(c)+'</td></tr>';}
+  var r=gRY(cH);var h='<table class="data-table"><thead><tr><th>Concepto</th>';MS.forEach(function(m){h+='<th class="msep" style="text-align:right">'+m+' Real</th><th style="text-align:right">Meta</th><th style="text-align:right">%</th>';});h+='<th class="msep" style="text-align:right">Total Real</th><th style="text-align:right">Meta</th><th style="text-align:right">Cumpl</th></tr></thead><tbody>';
+  SEGS.forEach(function(seg){var tr=0,tm=0;h+='<tr><td>'+SS[seg]+'</td>';MO.forEach(function(m){var re=safeR25(r.meses[m],'segmentos.'+seg+'.real'),me=safeR25(r.meses[m],'segmentos.'+seg+'.meta');tr+=re;tm+=me;var p=me>0?re/me:0;h+='<td class="msep" style="text-align:right">'+fmt(re)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(me)+'</td><td style="text-align:right" class="'+cTx(p)+'">'+(me>0?fP(p):'—')+'</td>';});var c=tm>0?tr/tm:0;h+='<td class="msep" style="text-align:right;font-weight:600">'+fmt(tr)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(tm)+'</td><td style="text-align:right;font-weight:600" class="'+cTx(c)+'">'+fP(c)+'</td></tr>';});
+  function addRow(lbl,key){var tr=0,tm=0;h+='<tr'+(key==='total'?' class="row-total"':key==='alojamiento'?' class="row-subtotal"':'')+'><td>'+lbl+'</td>';MO.forEach(function(m){var re=safeR25(r.meses[m],key+'.real'),me=safeR25(r.meses[m],key+'.meta');tr+=re;tm+=me;var p=me>0?re/me:0;h+='<td class="msep" style="text-align:right">'+fmt(re)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(me)+'</td><td style="text-align:right" class="'+cTx(p)+'">'+fP(p)+'</td>';});var c=tm>0?tr/tm:0;h+='<td class="msep" style="text-align:right;font-weight:600">'+fmt(tr)+'</td><td style="text-align:right;color:var(--text-muted)">'+fmt(tm)+'</td><td style="text-align:right;font-weight:600" class="'+cTx(c)+'">'+fP(c)+'</td></tr>';}
   addRow('TOTAL ALOJAMIENTO','alojamiento');addRow('Eventos','eventos');addRow('AA&BB','aabb');addRow('Otros (SPA/Lav)','otros');addRow('TOTAL VENTA','total');
   h+='<tr><td colspan="40" style="padding:0.8rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase">Indicadores Operacionales</td></tr>';
-  [{n:'Ocupación',f:function(m){var d=r.meses[m];return d&&d.ocupacion?fP(d.ocupacion):'—';}},{n:'Tarifa Prom',f:function(m){var d=r.meses[m];return d&&d.tarifa_prom?'$'+fN(d.tarifa_prom):'—';}},{n:'PAX',f:function(m){var d=r.meses[m];return d&&d.pax?fN(d.pax):'—';}},{n:'RN Ocupadas',f:function(m){var d=r.meses[m];return d&&d.rn_ocupadas?fN(d.rn_ocupadas):'—';}},{n:'RN x Día',f:function(m){var d=r.meses[m];return d&&d.rn_x_dia?fN(d.rn_x_dia):'—';}}].forEach(function(k){h+='<tr><td>'+k.n+'</td>';MO.forEach(function(m){h+='<td style="text-align:right" colspan="3">'+k.f(m)+'</td>';});h+='<td colspan="3"></td></tr>';});
+  [{n:'Ocupación',f:function(m){var d=r.meses[m];return d&&d.ocupacion?fP(d.ocupacion):'—';}},{n:'Tarifa Prom',f:function(m){var d=r.meses[m];return d&&d.tarifa_prom?'$'+fN(d.tarifa_prom):'—';}},{n:'PAX',f:function(m){var d=r.meses[m];return d&&d.pax?fN(d.pax):'—';}},{n:'RN Ocupadas',f:function(m){var d=r.meses[m];return d&&d.rn_ocupadas?fN(d.rn_ocupadas):'—';}},{n:'RN x Día',f:function(m){var d=r.meses[m];return d&&d.rn_x_dia?fN(d.rn_x_dia):'—';}}].forEach(function(k){h+='<tr><td>'+k.n+'</td>';MO.forEach(function(m){h+='<td class="msep" style="text-align:right" colspan="3">'+k.f(m)+'</td>';});h+='<td class="msep" colspan="3"></td></tr>';});
   h+='</tbody></table>';ct.innerHTML=h;}
 
 // ========== HOTELS TAB ==========
@@ -833,6 +838,22 @@ document.addEventListener('change',function(e){if(e.target&&e.target.id==='hotel
 })();
 
 rAll();
+
+// Position fixed header + tab bar dynamically
+(function(){
+  var header = document.querySelector('.header');
+  var tabOuter = document.querySelector('.tab-nav-outer');
+  var mainEl = document.querySelector('.main');
+  function adjustPositions(){
+    var hH = header.offsetHeight;
+    var tH = tabOuter.offsetHeight;
+    tabOuter.style.top = hH + 'px';
+    mainEl.style.paddingTop = (hH + tH + 16) + 'px';
+  }
+  adjustPositions();
+  window.addEventListener('resize', adjustPositions);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(adjustPositions);
+})();
 </script>
 </body>
 </html>
